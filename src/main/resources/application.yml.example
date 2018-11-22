@@ -1,0 +1,10 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: Members
+  datasource:
+    url: jdbc:mysql://<user>.<endpoint>:3306/<database>
+    username: <username>
+    password: <password>
