@@ -38,11 +38,13 @@ public class MemberServiceTests {
     public void testFindAllMembers() {
 
         List<Member> members = new ArrayList<>();
-        members.add(Member.builder().name("rafael").id(Integer.valueOf(1)).build());
+        Member member = new Member(1, "Rafael");
+
+        members.add(member);
 
         when(repository.findAll()).thenReturn(members);
 
-        Iterable<Member> membersService = service.findAll();
+        List<Member> membersService = service.findAll();
 
         assertNotNull(membersService);
     }
@@ -50,12 +52,12 @@ public class MemberServiceTests {
     @Test
     public void testSaveMember() {
 
-        Member member = Member.builder().id(Integer.valueOf(1)).name("Rafael").build();
+        Member member = new Member(2, "Gustavo");
 
         when(repository.save(member)).thenReturn(member);
 
         Member save = service.save(member);
 
-        assertEquals("Rafael", save.getName());
+        assertEquals("Gustavo", save.getName());
     }
 }

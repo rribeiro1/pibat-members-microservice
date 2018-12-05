@@ -10,13 +10,16 @@
 .springBeans
 .sts4-cache
 application.yml
-*.txt
 
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
+*.txt
+
+### App ###
+/logs/
 
 ### NetBeans ###
 /nbproject/private/

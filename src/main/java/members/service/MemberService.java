@@ -5,6 +5,7 @@ import members.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,8 +19,10 @@ public class MemberService {
         this.repository = repository;
     }
 
-    public Iterable<Member> findAll() {
-        return repository.findAll();
+    public List<Member> findAll() {
+        List<Member> members = new ArrayList<>();
+        this.repository.findAll().forEach(members::add);
+        return members;
     }
 
     public Member save(Member member) {

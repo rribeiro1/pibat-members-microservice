@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -42,16 +43,14 @@ public class MemberControllerTests {
     @Test
     public void testFindAllMembers() throws Exception {
 
-        List<Member> member = new ArrayList<>();
+        List<Member> members = new ArrayList<>();
+        Member member = new Member(1, "Rafael");
 
-        member.add(Member.builder()
-                .id(Integer.valueOf(1))
-                .name("Rafael")
-                .build());
+        members.add(member);
 
-        when(service.findAll()).thenReturn(member);
+        when(service.findAll()).thenReturn(members);
 
-        mockMvc.perform(get("/membros", member))
+        mockMvc.perform(get("/membros", members))
             .andExpect(status().isOk())
             .andReturn();
     }
@@ -59,13 +58,12 @@ public class MemberControllerTests {
     @Test
     public void testSaveMember() throws Exception {
 
-        Member member = Member.builder().id(Integer.valueOf(2)).name("Thales").build();
+        String json = "{ \"name\": \"Thales\"}";
 
-        when(service.save(member)).thenReturn(member);
-
-        mockMvc.perform(post("/membros"))
-                .andExpect(status().isOk())
-                .andReturn();
+        mockMvc.perform(post("/membros")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isOk());
     }
 }
 
