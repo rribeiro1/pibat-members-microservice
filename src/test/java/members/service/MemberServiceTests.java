@@ -3,7 +3,8 @@ package members.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import members.model.Member;
+import members.domain.Member;
+import members.domain.Situation;
 import members.repository.MemberRepository;
 import static org.mockito.Mockito.*;
 
@@ -16,8 +17,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -35,29 +35,19 @@ public class MemberServiceTests {
     }
 
     @Test
-    public void testFindAllMembers() {
+    public void testFindByName() {
 
-        List<Member> members = new ArrayList<>();
-        Member member = new Member(1, "Rafael");
+        String name = "Rafael";
+        Situation situation = Situation.Ativo;
+        Member member = new Member(1, "Rafael", situation);
 
-        members.add(member);
+        when(repository.findByName(name)).thenReturn(Optional.ofNullable(member));
 
-        when(repository.findAll()).thenReturn(members);
+        Member m = service.findByName(name);
 
-        List<Member> membersService = service.findAll();
-
-        assertNotNull(membersService);
+        assertNotNull(m);
+        assertEquals("Ativo", m.getSituation().getLabel());
+        assertEquals("Rafael", m.getName());
     }
 
-    @Test
-    public void testSaveMember() {
-
-        Member member = new Member(2, "Gustavo");
-
-        when(repository.save(member)).thenReturn(member);
-
-        Member save = service.save(member);
-
-        assertEquals("Gustavo", save.getName());
-    }
 }

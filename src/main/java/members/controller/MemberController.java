@@ -1,6 +1,6 @@
 package members.controller;
 
-import members.model.Member;
+import members.domain.Member;
 import members.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/membros")
+@RequestMapping("/members")
 public class MemberController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
@@ -23,21 +23,8 @@ public class MemberController {
     }
 
     @GetMapping
-    @ResponseBody public List<Member> getAll() {
-        return service.findAll();
-    }
-
-    @PostMapping
-    @ResponseBody public Member save(@RequestBody Member member) {
-        return service.save(member);
-    }
-
-    private void trace(List<Member> members) {
-        LOGGER.debug("Consulta realizada com sucesso para {} membros", members.size());
-    }
-
-    private void success() {
-        LOGGER.debug("Consulta realizada com sucesso");
+    @ResponseBody public Member findByName(@RequestParam("name") String name) {
+        return service.findByName(name);
     }
 
 }

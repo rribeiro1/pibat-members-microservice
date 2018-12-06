@@ -1,8 +1,10 @@
 package members.repository;
 
-import members.model.Member;
-import org.springframework.data.repository.CrudRepository;
+import members.domain.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository extends CrudRepository<Member, Integer> {
+import java.util.Optional;
 
+public interface MemberRepository extends JpaRepository<Member, Integer> {
+    Optional<Member> findByName(String name);
 }

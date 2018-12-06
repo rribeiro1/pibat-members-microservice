@@ -1,13 +1,11 @@
 package members.service;
 
-import members.model.Member;
+import members.domain.Member;
 import members.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.NoSuchElementException;
 
 @Service
 public class MemberService {
@@ -19,15 +17,16 @@ public class MemberService {
         this.repository = repository;
     }
 
-    public List<Member> findAll() {
-        List<Member> members = new ArrayList<>();
-        this.repository.findAll().forEach(members::add);
-        return members;
+    /**
+     * Verify and return the Member given a Name.
+     *
+     * @param name
+     * @return the found Member
+     * @throws NoSuchElementException if no Member found.
+     */
+    public Member findByName(String name) throws NoSuchElementException {
+        return repository.findByName(name).orElseThrow(() ->
+                new NoSuchElementException("Member does not exist " + name)
+        );
     }
-
-    public Member save(Member member) {
-        Objects.requireNonNull(member);
-        return repository.save(member);
-    }
-
 }
